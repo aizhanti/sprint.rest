@@ -100,15 +100,30 @@ app.post("/api/types", async (request, response) => {
   response.send(pokeData.types);
 });
 
-app.delete("/api/types/:name", async (request, response) => {
-  const name = request.params.name;
+app.delete("/api/types/:type", async (request, response) => {
+  const type = request.params.type;
   for (let i = 0; i < pokeData.types.length; i++) {
-    if (pokeData.types[i] === name) {
+    if (pokeData.types[i] === type) {
       pokeData.types.splice(i, 1);
     }
   }
   response.send(pokeData.types);
   response.status(200).end();
 });
+
+app.get("/api/types/:type/pokemon", async (request, response) => {
+  const type = request.params.type;
+  const result = [];
+  pokeData.pokemon.forEach((pok) => {
+    if (pok.types.includes(type)) {
+      if (!result[pok.id]) {
+        result.push({ [pok.id]: pok.name });
+      }
+    }
+  });
+  response.send(result);
+  response.status(200).end();
+});
+
 
 module.exports = { setupServer };
