@@ -14,6 +14,7 @@ const setupServer = () => {
 app.get("/api/pokemon", async (request, response) => {
   const limit = request.query.limit;
   response.send(pokeData.pokemon.slice(0, limit));
+  response.status(200).end();
 });
 
 app.post("/api/pokemon", async (request, response) => {
@@ -31,6 +32,23 @@ app.get("/api/pokemon/:key", async (request, response) => {
       response.send(pok);
     }
   });
+  response.status(200).end();
+});
+
+app.patch("/api/pokemon/:key", async (request, response) => {
+  const key = request.params.key;
+  console.log("request.body", request.body, key);
+  pokeData.pokemon.forEach((pok) => {
+    // if (
+    //   Number(pok.id) === Number(key) ||
+    //   pok.name.toLowerCase() === key.toLowerCase()
+    // )
+    if (Number(pok.id) === Number(key)) {
+      pok = Object.assign(pok, request.body);
+      response.send(pok);
+    }
+  });
+  response.status(200).end();
 });
 
 module.exports = { setupServer };
