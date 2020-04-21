@@ -28,8 +28,9 @@ describe("Pokemon API Server", () => {
   describe("POST /api/pokemon", () => {
     it("should add a pokemon", async () => {
       const newPok = {
-        id: "1512",
+        id: "152",
         name: "Aizhan",
+        types: ["None"],
       };
       const res = await request.post("/api/pokemon").send(newPok);
       JSON.parse(res.text).length.should.equal(152);
@@ -64,7 +65,7 @@ describe("Pokemon API Server", () => {
 
   describe("DELETE /api/pokemon/:idOrName", () => {
     it("should delete the given Pokemon", async () => {
-      const res = await request.delete("/api/pokemon/1");
+      const res = await request.delete("/api/pokemon/152");
       res.should.be.json;
       JSON.parse(res.text).length.should.equal(151);
     });
@@ -109,5 +110,12 @@ describe("Pokemon API Server", () => {
       JSON.parse(res.text).length.should.equal(17);
     });
   });
-});
 
+  describe("GET /api/types/:type/pokemon", () => {
+    it("should return the Pokemon with given name", async () => {
+      const res = await request.get("/api/types/Fire/pokemon");
+      res.should.be.json;
+      JSON.parse(res.text).length.should.equal(12);
+    });
+  });
+});
