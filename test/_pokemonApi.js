@@ -69,4 +69,45 @@ describe("Pokemon API Server", () => {
       JSON.parse(res.text).length.should.equal(151);
     });
   });
+
+  describe("GET /api/pokemon/:idOrName/evolutions", () => {
+    it("should return the evolutions a Pokemon has", async () => {
+      const res = await request.get("/api/pokemon/staryu/evolutions");
+      res.should.be.json;
+      expect(res.body).to.deep.equal([{ id: 121, name: "Starmie" }]);
+    });
+  });
+
+  describe("GET /api/pokemon/:idOrName/evolutions/previous", () => {
+    it("For evolved Pokemon, this should return it's previous evolutions", async () => {
+      const res = await request.get("/api/pokemon/17/evolutions/previous");
+      res.should.be.json;
+      expect(res.body).to.deep.equal([{ id: 16, name: "Pidgey" }]);
+    });
+  });
+
+  describe("GET /api/types", () => {
+    it("should return json for full list pokemon", async () => {
+      const res = await request.get("/api/types").query({ limit: 3 });
+      res.should.be.json;
+      JSON.parse(res.text).length.should.equal(3);
+    });
+  });
+
+  describe("POST /api/types", () => {
+    it("should add a type", async () => {
+      const newType = "newType";
+      const res = await request.post("/api/types").send({ newType });
+      JSON.parse(res.text).length.should.equal(18);
+    });
+  });
+
+  describe("DELETE /api/types/:name", () => {
+    it("should delete the given Pokemon", async () => {
+      const res = await request.delete("/api/types/newType");
+      res.should.be.json;
+      JSON.parse(res.text).length.should.equal(17);
+    });
+  });
 });
+
