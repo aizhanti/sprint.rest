@@ -118,4 +118,27 @@ describe("Pokemon API Server", () => {
       JSON.parse(res.text).length.should.equal(12);
     });
   });
-});
+
+  describe("GET /api/attacks", () => {
+    it("should return all attacks", async () => {
+      const res = await request.get("/api/attacks").query({ limit: 5 });
+      res.should.be.json;
+      JSON.parse(res.text).length.should.equal(5);
+    });
+  });
+
+  describe("GET /api/attacks/fast", () => {
+    it("should return all attacks", async () => {
+      const res = await request.get("/api/attacks/fast").query({ limit: 5 });
+      res.should.be.json;
+      JSON.parse(res.text).length.should.equal(5);
+    });
+  });
+
+  describe("GET /api/attacks/special", () => {
+    it("should return all attacks", async () => {
+      const res = await request.get("/api/attacks/special").query({ limit: 5 });
+      res.should.be.json;
+      JSON.parse(res.text).length.should.equal(5);
+    });
+  });
