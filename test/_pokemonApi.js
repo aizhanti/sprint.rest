@@ -142,3 +142,68 @@ describe("Pokemon API Server", () => {
       JSON.parse(res.text).length.should.equal(5);
     });
   });
+
+  describe("GET /api/attacks/:name", () => {
+    it("Get a specific attack by name, no matter if it is fast or special", async () => {
+      const res = await request.get("/api/attacks/Tackle");
+      res.should.be.json;
+      expect(res.body.name).to.equal("Tackle");
+    });
+  });
+
+  describe("GET /api/attacks/:name/pokemon", () => {
+    it("Returns all Pokemon (id and name) that have an attack with the given name", async () => {
+      const res = await request.get("/api/attacks/Tackle/pokemon");
+      res.should.be.json;
+      JSON.parse(res.text).length.should.equal(17);
+    });
+  });
+
+  describe("POST /api/attacks/fast", () => {
+    it("Add an fast attack", async () => {
+      const newAttack = {
+        name: "newFastAttack",
+        type: "Normal",
+        damage: 111,
+      };
+      const res = await request.post("/api/attacks/fast").send(newAttack);
+      JSON.parse(res.text).length.should.equal(42);
+    });
+  });
+
+  describe("POST /api/attacks/special", () => {
+    it("Add an special attack", async () => {
+      const newAttack = {
+        name: "newSpecialAttack",
+        type: "Normal",
+        damage: 222,
+      };
+      const res = await request.post("/api/attacks/special").send(newAttack);
+      JSON.parse(res.text).length.should.equal(84);
+    });
+  });
+
+  describe("PATCH /api/attacks/:name", () => {
+    it("Modifies specified attack", async () => {
+      const modTackle = {
+        name: "newFastAttack2",
+        type: "Normal",
+        damage: 13,
+      };
+
+      const res = await request
+        .patch("/api/attacks/newFastAttack")
+        .send(modTackle);
+      res.should.be.json;
+      expect(res.body.name).to.equal("newFastAttack2");
+    });
+  });
+
+  describe("DELETE /api/attacks/:name", () => {
+    it("Deletes an attack", async () => {
+      const res = await request.delete("/api/attacks/newFastAttack2");
+      res.should.be.json;
+      JSON.parse(res.text).length.should.equal(41);
+    });
+  });
+});
