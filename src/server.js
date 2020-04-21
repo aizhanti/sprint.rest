@@ -125,5 +125,23 @@ app.get("/api/types/:type/pokemon", async (request, response) => {
   response.status(200).end();
 });
 
+app.get("/api/attacks", async (request, response) => {
+  const limit = request.query.limit;
+  response.send(pokeData.attacks.fast.slice(0, limit));
+  response.status(200).end();
+});
+
+app.get("/api/attacks/fast", async (request, response) => {
+  const limit = request.query.limit;
+  response.send(pokeData.attacks.fast.slice(0, limit));
+  response.status(200).end();
+});
+
+app.get("/api/attacks/special", async (request, response) => {
+  const limit = request.query.limit;
+  response.send(pokeData.attacks.special.slice(0, limit));
+  response.status(200).end();
+});
+
 
 module.exports = { setupServer };
