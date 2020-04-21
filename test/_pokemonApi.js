@@ -51,14 +51,22 @@ describe("Pokemon API Server", () => {
       expect(res.body.name).to.equal("Mew");
     });
   });
-  
+
   describe("PATCH /api/pokemon/:idOrName", () => {
-  it("should allow you to make partial modifications to a Pokemon", async () => {
-    const res = await request
-      .patch("/api/pokemon/1")
-      .send({ name: "AizhanAizhan" });
-    // res.should.be.json;
-    expect(res.body.name).to.equal("AizhanAizhan");
+    it("should allow you to make partial modifications to a Pokemon", async () => {
+      const res = await request
+        .patch("/api/pokemon/1")
+        .send({ name: "AizhanAizhan" });
+      res.should.be.json;
+      expect(res.body.name).to.equal("AizhanAizhan");
+    });
   });
+
+  describe("DELETE /api/pokemon/:idOrName", () => {
+    it("should delete the given Pokemon", async () => {
+      const res = await request.delete("/api/pokemon/1");
+      res.should.be.json;
+      JSON.parse(res.text).length.should.equal(151);
+    });
   });
 });
