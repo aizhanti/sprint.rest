@@ -51,4 +51,14 @@ describe("Pokemon API Server", () => {
       expect(res.body.name).to.equal("Mew");
     });
   });
+  
+  describe("PATCH /api/pokemon/:idOrName", () => {
+  it("should allow you to make partial modifications to a Pokemon", async () => {
+    const res = await request
+      .patch("/api/pokemon/1")
+      .send({ name: "AizhanAizhan" });
+    // res.should.be.json;
+    expect(res.body.name).to.equal("AizhanAizhan");
+  });
+  });
 });
