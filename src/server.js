@@ -37,17 +37,29 @@ app.get("/api/pokemon/:key", async (request, response) => {
 
 app.patch("/api/pokemon/:key", async (request, response) => {
   const key = request.params.key;
-  console.log("request.body", request.body, key);
   pokeData.pokemon.forEach((pok) => {
-    // if (
-    //   Number(pok.id) === Number(key) ||
-    //   pok.name.toLowerCase() === key.toLowerCase()
-    // )
-    if (Number(pok.id) === Number(key)) {
+    if (
+      Number(pok.id) === Number(key) ||
+      pok.name.toLowerCase() === key.toLowerCase()
+    ) {
       pok = Object.assign(pok, request.body);
       response.send(pok);
     }
   });
+  response.status(200).end();
+});
+
+app.delete("/api/pokemon/:key", async (request, response) => {
+  const key = request.params.key;
+  for (i = 0; i < pokeData.pokemon.length; i++) {
+    if (
+      Number(pokeData.pokemon[i].id) === Number(key) ||
+      pokeData.pokemon[i].name.toLowerCase() === key.toLowerCase()
+    ) {
+      pokeData.pokemon.splice(i, 1);
+    }
+  }
+  response.send(pokeData.pokemon);
   response.status(200).end();
 });
 
